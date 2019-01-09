@@ -3,12 +3,14 @@ package com.truyenho.controller;
 import com.truyenho.model.Thing;
 import com.truyenho.service.ThingService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.Optional;
 
 @Controller
 public class ThingController {
@@ -51,11 +53,16 @@ public class ThingController {
     }
   }
 
-  /*@GetMapping("/thing/s")
-  public ModelAndView listThings(@RequestParam("s") Optional<String> s, Pageable pageable){
-    Iterable things = thingService.findAll();
-    ModelAndView modelAndView = new ModelAndView("/thing/list");
+  @GetMapping("/thing/s")
+  public ModelAndView listThings(@RequestParam("name") Optional<String> name, Pageable pageable){
+    Page<Thing> things;
+    if (name.isPresent()) {
+      things = thingService.findAllByNameContaining(name.get(), pageable);
+    } else {
+      things = thingService.findAll(new PageRequest(pageable.getPageNumber(), 10));
+    }
+    ModelAndView modelAndView = new ModelAndView("thing/list");
     modelAndView.addObject("things", things);
     return modelAndView;
-  }*/
+  }
 }
