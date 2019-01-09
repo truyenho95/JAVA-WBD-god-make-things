@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+</head>
+<body>
+<a href="/create-thing">Create new thing</a>
+<h1>Things</h1>
+<table border="1">
+  <tr>
+    <th>Thing's name</th>
+    <th>Description</th>
+  </tr>
+  <th:block th:each="thing : ${things}">
+    <tr>
+      <td><a th:href="@{/thing/__${thing.id}__ }" th:text="${thing.name}"></a></td>
+      <td th:text="${thing.description}"></td>
+    </tr>
+  </th:block>
+</table>
+</body>
+</html>

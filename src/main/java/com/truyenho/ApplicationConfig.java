@@ -1,6 +1,5 @@
 package com.truyenho;
 
-import com.truyenho.formatter.ThingFormatter;
 import com.truyenho.service.Impl.ThingServiceImpl;
 import com.truyenho.service.ThingService;
 import org.springframework.beans.BeansException;
@@ -12,7 +11,6 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
-import org.springframework.format.FormatterRegistry;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
@@ -46,11 +44,6 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter implements Applic
   @Override
   public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
     this.applicationContext = applicationContext;
-  }
-
-  @Override
-  public void addFormatters(FormatterRegistry registry) {
-    registry.addFormatter(new ThingFormatter(applicationContext.getBean(ThingService.class)));
   }
 
   @Bean
@@ -94,7 +87,7 @@ public class ApplicationConfig extends WebMvcConfigurerAdapter implements Applic
   public LocalContainerEntityManagerFactoryBean entityManagerFactory() {
     LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
     em.setDataSource(dataSource());
-    em.setPackagesToScan(new String[]{"com.truyenho.model"});
+    em.setPackagesToScan("com.truyenho.model");
 
     JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
     em.setJpaVendorAdapter(vendorAdapter);

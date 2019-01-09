@@ -18,6 +18,11 @@ public class ThingServiceImpl implements ThingService {
   }
 
   @Override
+  public Page<Thing> findAllByNameContaining(String name, Pageable pageable) {
+    return thingRepository.findAllByNameContaining(name, pageable);
+  }
+
+  @Override
   public Thing findById(Long id) {
     return thingRepository.findOne(id);
   }
